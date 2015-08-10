@@ -24,7 +24,7 @@ add_action( 'init', 'jkbanners_init' );
 function jkbanners_init(){
     jkbanners_create_banner_post_type();
     //Shortcodes
-    //add_shortcode( 'banners', 'jkbanners_display_banners' );
+    add_shortcode( 'banners', 'jkbanners_display_banners' );
     add_shortcode( 'banner', 'jkbanners_display_banner' );
 }
 
@@ -58,5 +58,40 @@ function jkbanners_display_banner( $atts ) {
 
     $output = implode("\n",$output);
     return $output;
+}
 
+function jkbanners_display_banners( $atts ) {
+    $a = shortcode_atts( array(
+        'id' => false,
+        'filter_menu_order' => false,
+        'template' => 'list',
+    ), $atts );
+    $output = array();
+    //
+    $banners = array();
+    $banners = Banner::getAll();
+    if($a['filter_menu_order']){
+        foreach($banners as $bk=>$banner){
+            if($banner->post->menu_order != $a['filter_menu_order']){
+                unset($banners[$bk]);
+            }
+        }
+    }
+    //
+    $bannerTemplate = new Template();
+    //One random banner
+    if($a['template'] == 'random-single'){
+        //get a random item
+        $banner = $banners[array_rand($banners)];
+        //show single banner
+        $bannerTemplateResponse = $bannerTemplate->get(__DIR__.'/templates/single.php',array('banner'=>$banner));
+        $output[] = $bannerTemplateResponse;
+    }
+    //List all banners
+    if($a['template'] == 'list'){
+        //
+    }
+    //
+    $output = implode("\n",$output);
+    return $output;
 }

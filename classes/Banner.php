@@ -53,4 +53,22 @@ class Banner{
             $this->setupFromPost();
         }
     }
+
+    public static function getAll($argOverrides=array()){
+        $posts = array();
+        $args = array(
+            'post_type' => 'jkbanner',
+            'posts_per_page' => '-1',
+        );
+        $args = array_merge($args, $argOverrides);
+        $query = new WP_Query( $args );
+        if ( $query->have_posts() ) {
+            while ( $query->have_posts() ) {
+                $query->the_post();
+                $posts[] = new Banner($query->post);
+            }
+        }
+        return $posts;
+    }
+
 }
