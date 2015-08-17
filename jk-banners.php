@@ -36,6 +36,7 @@ function jkbanners_create_banner_post_type(){
     $postType->labelSingular = 'Banner';
     $postType->excerptTitle = 'URL';
     $postType->excerptHelp = 'URL directed to when clicked';
+    $postType->iconCSSContent = '\f116';
     $postType->create();
 }
 
