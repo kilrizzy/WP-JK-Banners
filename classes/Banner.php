@@ -59,6 +59,8 @@ class Banner{
         $args = array(
             'post_type' => 'jkbanner',
             'posts_per_page' => '-1',
+            'order_by' => 'menu_order',
+            'order' => 'ASC',
         );
         $args = array_merge($args, $argOverrides);
         $query = new WP_Query( $args );
