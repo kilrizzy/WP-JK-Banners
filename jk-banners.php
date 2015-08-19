@@ -90,7 +90,8 @@ function jkbanners_display_banners( $atts ) {
     }
     //List all banners
     if($a['template'] == 'list'){
-        //
+        $bannerTemplateResponse = $bannerTemplate->get(__DIR__.'/templates/list.php',array('banners'=>$banners));
+        $output[] = $bannerTemplateResponse;
     }
     //
     $output = implode("\n",$output);
